@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.thymeleaf.vue.converter.UserConverter;
+import com.example.thymeleaf.vue.dto.UserDTO;
 import com.example.thymeleaf.vue.entity.User;
 import com.example.thymeleaf.vue.repository.UserRepository;
 
@@ -33,17 +35,17 @@ public class UserService {
 
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
-    public List<User> getAll(){
+    public List<UserDTO> getAll(){
         if (SecurityContextHolder.getContext().getAuthentication() != null &&
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserDetails)
             log.info("Method GET ALL USERS used by: " +
                 ((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 
-        return userRepository.findAll();
+        return userRepository.findAll().stream().map(UserConverter::toDto).collect(Collectors.toList());
     }
 
-    public User getUserById(Integer id){
-        return userRepository.getOne(id);
+    public UserDTO getUserById(Integer id){
+        return UserConverter.toDto(userRepository.getOne(id));
     }
 
     public User loadByUsername(String username){
