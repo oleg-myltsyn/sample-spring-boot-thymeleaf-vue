@@ -9,16 +9,16 @@ import org.springframework.web.servlet.ModelAndView;
  * @author o.myltsyn * @since 19 февр. 2020 г.
  */
 @Controller
-public class IndexController {
+public class MainController {
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     private ModelAndView index(){
         return new ModelAndView("index");
     }
 
-    @RequestMapping(path = "/auth", method = RequestMethod.GET)
-    private ModelAndView indexAuth(){
-        return new ModelAndView("index");
+    @RequestMapping(path = "/login", method = RequestMethod.GET)
+    private ModelAndView login(){
+        return new ModelAndView("login");
     }
 
 }
